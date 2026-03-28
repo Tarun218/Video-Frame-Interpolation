@@ -12,6 +12,9 @@ input/*
 *.obj
 *.pdb
 *.ilk
+*.dll
+exe-out.txt
+exe-err.txt
 .git
 dist/
 build/

@@ -33,11 +33,17 @@ Video Frame Interpolation/
 │   ├── about.html          # About page
 │   ├── styles.css          # CSS styling
 │   └── script.js           # Frontend JavaScript
+├── src/                    # C++ source code
+│   └── VideoFrameInterpolation.cpp
 ├── input/                  # Input video storage
+│   └── .gitkeep
 ├── output/                 # Processed video output
+│   └── .gitkeep
 ├── server.js               # Express server
 ├── package.json            # Node.js dependencies
-├── Video Frame Interpolation.cpp  # Modified C++ source
+├── package-lock.json       # Installed dependency tree
+├── .gitignore              # Ignore local artifacts
+├── .gitattributes          # Git attributes
 └── Video Frame Interpolation.exe  # Compiled executable
 ```
 
@@ -70,7 +76,7 @@ Make sure you have the compiled `Video Frame Interpolation.exe` in the project r
 ```bash
 cd /d "D:\Video Frame Interpolation\Video Frame Interpolation"
 "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvars64.bat"
-"C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\bin\Hostx64\x64\cl.exe" /EHsc /std:c++17 /I"D:\opencv\build\include" /I"D:\opencv\build\include\opencv2" "Video Frame Interpolation.cpp" /link /LIBPATH:"D:\opencv\build\x64\vc16\lib" opencv_world4120.lib /OUT:"Video Frame Interpolation.exe"
+"C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\bin\Hostx64\x64\cl.exe" /EHsc /std:c++17 /I"D:\opencv\build\include" /I"D:\opencv\build\include\opencv2" "src\VideoFrameInterpolation.cpp" /link /LIBPATH:"D:\opencv\build\x64\vc16\lib" opencv_world4120.lib /OUT:"Video Frame Interpolation.exe"
 ```
 
 Or use the VS Code build task: `Build Video Frame Interpolation`

@@ -10,7 +10,7 @@ npm install
 ### Step 2: Build the C++ Program (if needed)
 Use the "Build Video Frame Interpolation" task in VS Code, or run:
 ```bash
-cl.exe /EHsc /std:c++17 /I"D:\opencv\build\include" "Video Frame Interpolation.cpp" /link /LIBPATH:"D:\opencv\build\x64\vc16\lib" opencv_world4120.lib
+cl.exe /EHsc /std:c++17 /I"D:\opencv\build\include" "src\VideoFrameInterpolation.cpp" /link /LIBPATH:"D:\opencv\build\x64\vc16\lib" opencv_world4120.lib
 ```
 
 ### Step 3: Start the Server
@@ -75,11 +75,14 @@ Video Frame Interpolation/
 │   ├── about.html       # About page
 │   ├── styles.css       # Styling
 │   └── script.js        # Interactivity
+├── src/                 # C++ source code
+│   └── VideoFrameInterpolation.cpp
 ├── input/               # Input videos (auto-created)
 ├── output/              # Processed videos (auto-created)
 ├── server.js            # Node.js web server
 ├── package.json         # Dependencies
-├── %.exe                # Compiled C++ program
+├── package-lock.json    # Installed dependency tree
+├── .gitignore           # Ignore local artifacts
 └── README.md            # Full documentation
 ```
 
