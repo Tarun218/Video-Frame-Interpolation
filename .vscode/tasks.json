@@ -1,0 +1,58 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build Video Frame Interpolation",
+            "type": "shell",
+            "command": "cmd",
+            "args": [
+                "/c",
+                "cd /d \"D:\\Video Frame Interpolation\\Video Frame Interpolation\" && \"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Auxiliary\\Build\\vcvars64.bat\" && \"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe\" /EHsc /std:c++17 /I\"D:\\opencv\\build\\include\" /I\"D:\\opencv\\build\\include\\opencv2\" \"Video Frame Interpolation.cpp\" /link /LIBPATH:\"D:\\opencv\\build\\x64\\vc16\\lib\" opencv_world4120.lib /OUT:\"Video Frame Interpolation.exe\""
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": [
+                "$msCompile"
+            ],
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "Run Video Frame Interpolation",
+            "type": "shell",
+            "command": "cmd",
+            "args": [
+                "/c",
+                "cd /d \"D:\\Video Frame Interpolation\\Video Frame Interpolation\" && \"Video Frame Interpolation.exe\""
+            ],
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "dependsOn": ["Build Video Frame Interpolation"]
+        },
+        {
+            "label": "Clean Build",
+            "type": "shell",
+            "command": "cmd",
+            "args": [
+                "/c",
+                "if exist \"Video Frame Interpolation.exe\" del \"Video Frame Interpolation.exe\" && if exist \"*.obj\" del \"*.obj\""
+            ],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
+        }
+    ]
+}

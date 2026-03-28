@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Frame Interpolation - Home</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <span class="logo-icon">🎬</span>
+                <span>VFI Studio</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="/" class="nav-link active">Home</a></li>
+                <li><a href="/about" class="nav-link">About</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1>Video Frame Interpolation Studio</h1>
+            <p>Transform your videos with advanced slow motion and super resolution enhancement</p>
+        </section>
+
+        <!-- Processing Form -->
+        <section class="form-section">
+            <div class="form-card">
+                <h2>Process Your Video</h2>
+                
+                <form id="videoForm" class="video-form">
+                    <!-- Video Upload -->
+                    <div class="form-group">
+                        <label for="videoInput">Select Video File</label>
+                        <div class="file-upload-wrapper">
+                            <input 
+                                type="file" 
+                                id="videoInput" 
+                                name="video" 
+                                accept="video/*"
+                                required
+                            >
+                            <div class="file-upload-area">
+                                <span class="upload-icon">📹</span>
+                                <p>Drag your video here or click to browse</p>
+                                <span class="file-info" id="fileInfo"></span>
+                            </div>
+                        </div>
+                        <small>Supported formats: MP4, AVI, MOV, MKV, FLV, WMV (Max 2GB)</small>
+                    </div>
+
+                    <!-- Slow Motion Factor -->
+                    <div class="form-group">
+                        <label for="slowFactor">Slow Motion Speed</label>
+                        <div class="slider-container">
+                            <input 
+                                type="range" 
+                                id="slowFactor" 
+                                name="slowFactor" 
+                                min="2" 
+                                max="8" 
+                                value="2"
+                                class="slider"
+                            >
+                            <div class="slider-labels">
+                                <span>2x</span>
+                                <span>3x</span>
+                                <span>4x</span>
+                                <span>5x</span>
+                                <span>6x</span>
+                                <span>7x</span>
+                                <span>8x</span>
+                            </div>
+                        </div>
+                        <p class="slider-value">Currently: <strong id="slowFactorValue">2x</strong> slow motion</p>
+                        <small>Higher values create slower motion effects. Each frame is repeated X times.</small>
+                    </div>
+
+                    <!-- Resolution Scale -->
+                    <div class="form-group">
+                        <label for="resolutionScale">Resolution Enhancement</label>
+                        <div class="resolution-options">
+                            <button type="button" class="res-btn" data-value="1.0">
+                                <span class="res-label">None</span>
+                                <span class="res-desc">Original</span>
+                            </button>
+                            <button type="button" class="res-btn" data-value="1.5">
+                                <span class="res-label">1.5x</span>
+                                <span class="res-desc">Medium</span>
+                            </button>
+                            <button type="button" class="res-btn" data-value="2.0">
+                                <span class="res-label">2x</span>
+                                <span class="res-desc">High</span>
+                            </button>
+                            <button type="button" class="res-btn" data-value="2.5">
+                                <span class="res-label">2.5x</span>
+                                <span class="res-desc">Very High</span>
+                            </button>
+                            <button type="button" class="res-btn" data-value="3.0">
+                                <span class="res-label">3x</span>
+                                <span class="res-desc">Ultra</span>
+                            </button>
+                        </div>
+                        <input 
+                            type="hidden" 
+                            id="resolutionScale" 
+                            name="resolutionScale" 
+                            value="1.0"
+                        >
+                        <p class="resolution-info" id="resolutionInfo">Selected: <strong>1.0x</strong> (Original)</p>
+                    </div>
+
+                    <!-- Quality Options -->
+                    <div class="form-group">
+                        <label>Quality Enhancements</label>
+                        <div class="quality-features">
+                            <div class="quality-toggle">
+                                <input 
+                                    type="checkbox" 
+                                    id="enableSharpening" 
+                                    name="enableSharpening" 
+                                    checked
+                                >
+                                <label for="enableSharpening" class="toggle-label">
+                                    <span class="toggle-icon">✨</span>
+                                    <span>Ultra-Strong Sharpening (Triple-Pass)</span>
+                                </label>
+                            </div>
+                            
+                            <div class="quality-toggle">
+                                <input 
+                                    type="checkbox" 
+                                    id="enableContrast" 
+                                    name="enableContrast" 
+                                    checked
+                                >
+                                <label for="enableContrast" class="toggle-label">
+                                    <span class="toggle-icon">🎨</span>
+                                    <span>Advanced Contrast & Saturation Boost</span>
+                                </label>
+                            </div>
+                            
+                            <div class="quality-toggle">
+                                <input 
+                                    type="checkbox" 
+                                    id="enableNoisReduction" 
+                                    name="enableNoisReduction" 
+                                    checked
+                                >
+                                <label for="enableNoisReduction" class="toggle-label">
+                                    <span class="toggle-icon">🔊</span>
+                                    <span>Multi-Pass Noise Reduction</span>
+                                </label>
+                            </div>
+                            
+                            <div class="quality-toggle">
+                                <input 
+                                    type="checkbox" 
+                                    id="enableEdgeUpscale" 
+                                    name="enableEdgeUpscale" 
+                                    checked
+                                >
+                                <label for="enableEdgeUpscale" class="toggle-label">
+                                    <span class="toggle-icon">⚡</span>
+                                    <span>Edge-Aware Upscaling</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary" id="submitBtn">
+                            <span class="btn-icon">⚙️</span>
+                            <span class="btn-text">Start Processing</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- Status Section -->
+        <section class="status-section" id="statusSection" style="display: none;">
+            <div class="status-card">
+                <div class="status-header">
+                    <h3>Processing Status</h3>
+                </div>
+                
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <p class="progress-text" id="progressText">Processing your video...</p>
+                </div>
+
+                <div id="resultContent" style="display: none;">
+                    <div class="success-message">
+                        <span class="success-icon">✅</span>
+                        <h4>Video Processed Successfully!</h4>
+                    </div>
+                    
+                    <div class="result-info">
+                        <p id="processingDetails"></p>
+                    </div>
+
+                    <div class="download-section">
+                        <a href="#" id="downloadBtn" class="btn btn-success">
+                            <span class="btn-icon">📥</span>
+                            <span class="btn-text">Download Enhanced Video</span>
+                        </a>
+                    </div>
+
+                    <button type="button" class="btn btn-secondary" onclick="resetForm()">
+                        <span class="btn-icon">🔄</span>
+                        <span class="btn-text">Process Another Video</span>
+                    </button>
+                </div>
+
+                <div id="errorContent" style="display: none;">
+                    <div class="error-message">
+                        <span class="error-icon">❌</span>
+                        <h4>Processing Failed</h4>
+                        <p id="errorMessage"></p>
+                    </div>
+                    
+                    <button type="button" class="btn btn-secondary" onclick="resetForm()">
+                        <span class="btn-icon">🔄</span>
+                        <span class="btn-text">Try Again</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2026 Video Frame Interpolation Studio. Transform your videos with AI-powered enhancement.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

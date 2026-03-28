@@ -1,0 +1,26 @@
+{
+  "name": "video-frame-interpolation-ui",
+  "version": "1.0.0",
+  "description": "Web UI for Video Frame Interpolation with Slow Motion and Super Resolution",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "pm2-start": "pm2 start server.js --name vfi-studio",
+    "pm2-stop": "pm2 stop vfi-studio",
+    "pm2-restart": "pm2 restart vfi-studio",
+    "pm2-log": "pm2 logs vfi-studio"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "multer": "^1.4.5-lts.1",
+    "body-parser": "^1.20.2",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "pm2": "^5.3.0"
+  },
+  "keywords": ["video", "interpolation", "enhancement", "web-app"],
+  "author": "",
+  "license": "MIT"
+}

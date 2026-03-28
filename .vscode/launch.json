@@ -1,0 +1,22 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug Video Interpolation",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/Video Frame Interpolation.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [
+                {
+                    "name": "PATH",
+                    "value": "D:\\opencv\\build\\x64\\vc16\\bin;${env:PATH}"
+                }
+            ],
+            "console": "integratedTerminal",
+            "preLaunchTask": "Build Video Frame Interpolation"
+        }
+    ]
+}
