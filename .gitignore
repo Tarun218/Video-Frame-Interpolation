@@ -3,11 +3,9 @@ npm-debug.log
 .DS_Store
 .env
 .env.local
-.vscode/settings.json
-output/*
-!output/.gitkeep
-input/*
-!input/.gitkeep
+.vscode/
+output/
+input/
 *.exe
 *.obj
 *.pdb
@@ -15,9 +13,5 @@ input/*
 *.dll
 exe-out.txt
 exe-err.txt
-.git
 dist/
 build/
-*.dll
-node_modules/
-output/
