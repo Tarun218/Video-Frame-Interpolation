@@ -4,7 +4,7 @@
 
 A professional video enhancement application with frame interpolation, slow-motion effects, and super-resolution upscaling. Built with Node.js, Express, Python, and OpenCV.
 
-**🌐 Live Demo**: Deploy to Render.com for FREE! See [START_HERE_FREE_DEPLOYMENT.md](START_HERE_FREE_DEPLOYMENT.md)
+**🌐 Live Demo**:https://video-frame-interpolation.onrender.com
 
 ---
 
@@ -62,24 +62,6 @@ Open your browser and go to: **http://localhost:3000**
 
 ---
 
-## 🌐 Deploy to the Internet (FREE)
-
-### Deploy on Render.com in 5 Minutes
-
-**Perfect for**: Portfolio projects, demos, testing
-
-See detailed guide: [START_HERE_FREE_DEPLOYMENT.md](START_HERE_FREE_DEPLOYMENT.md)
-
-Quick steps:
-1. Push code to GitHub
-2. Sign up on Render.com (free, no credit card)
-3. Connect your GitHub repository
-4. Deploy with one click
-5. Your app goes live instantly!
-
-**Limitations**: 1GB storage, 512MB RAM (upgrade anytime)
-
----
 
 ## 📋 Project Structure
 
@@ -244,18 +226,6 @@ scikit-image>=0.17.0
 
 ---
 
-## 🚀 Deployment Options
-
-| Platform | Cost | Setup Time | Best For |
-|----------|------|-----------|----------|
-| **Render.com** | FREE | 5 min | Testing, demos, portfolios |
-| **Heroku** | Paid | 5 min | Production (paid) |
-| **AWS EC2** | Paid | 20 min | High traffic |
-| **DigitalOcean** | Paid | 10 min | Production |
-| **Local** | FREE | 2 min | Development |
-
----
-
 ## 🔒 Security Notes
 
 ### For Production Deployment:
@@ -294,14 +264,6 @@ PORT=3001 npm start
 
 ---
 
-## 📚 Documentation
-
-- **[START_HERE_FREE_DEPLOYMENT.md](START_HERE_FREE_DEPLOYMENT.md)** - Deploy for FREE
-- **[FREE_DEPLOYMENT_CHECKLIST.md](FREE_DEPLOYMENT_CHECKLIST.md)** - Step-by-step deployment
-- **[RENDER_FREE_DEPLOYMENT.md](RENDER_FREE_DEPLOYMENT.md)** - Complete Render.com guide
-
----
-
 ## 💡 For Recruiters & Hiring Managers
 
 This project demonstrates:
@@ -336,19 +298,8 @@ Contributions are welcome! Feel free to:
 
 - **Issues**: Create a GitHub issue
 - **Questions**: Check documentation files
-- **Deployment Help**: See [START_HERE_FREE_DEPLOYMENT.md](START_HERE_FREE_DEPLOYMENT.md)
 
 ---
-
-## 🎉 Getting Started
-
-Ready to deploy? Follow these steps:
-
-1. **Read**: [START_HERE_FREE_DEPLOYMENT.md](START_HERE_FREE_DEPLOYMENT.md)
-2. **Follow**: [FREE_DEPLOYMENT_CHECKLIST.md](FREE_DEPLOYMENT_CHECKLIST.md)
-3. **Deploy**: Push to GitHub → Render deploys automatically
-4. **Share**: Your live URL with others!
-
 ---
 
 **Made with ❤️ for video processing enthusiasts**
