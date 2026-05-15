@@ -1,185 +1,356 @@
 # Video Frame Interpolation Studio
 
-[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE) [![Node.js](https://img.shields.io/badge/node-%3E%3D14.0.0-brightgreen.svg)](https://nodejs.org/)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE) [![Node.js](https://img.shields.io/badge/node-18+-brightgreen.svg)](https://nodejs.org/) [![Python](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/)
 
-A professional video enhancement project showcasing full-stack integration between a Node.js/Express web UI and a native C++ OpenCV processor.
+A professional video enhancement application with frame interpolation, slow-motion effects, and super-resolution upscaling. Built with Node.js, Express, Python, and OpenCV.
 
-This repository includes:
-- A modern, responsive web UI for local video upload and video processing.
-- Slow motion interpolation from 2x to 8x.
-- Super-resolution upscaling from 1.0x to 3.0x.
-- Quality enhancement with sharpening, contrast, and noise reduction.
-- Clear developer onboarding for recruiters and hiring managers.
+**🌐 Live Demo**: Deploy to Render.com for FREE! See [START_HERE_FREE_DEPLOYMENT.md](START_HERE_FREE_DEPLOYMENT.md)
 
 ---
 
-## What This Project Solves
+## ✨ Features
 
-This project demonstrates full-stack integration between a JavaScript web interface and a native C++ media processor. It is a strong portfolio piece because it:
-
-- shows desktop-level media processing in a browser-ready application,
-- includes real-world file upload and processing flows,
-- documents a complete developer setup,
-- and is ready to present to recruiters with clear purpose.
-
----
-
-## Features
-
-- Responsive web dashboard for video selection and processing
-- Drag-and-drop file upload plus upload feedback
-- Slow motion interpolation adjustable from 2x to 8x
-- Resolution scaling from 1.0x to 3.0x
-- Quality boost options including sharpening, contrast, and noise reduction
-- Downloadable output with direct file delivery
-- API endpoints for automation or integration
+- **Frame Interpolation**: Create smooth slow-motion videos (2x - 8x)
+- **Super-Resolution**: Upscale videos up to 3x resolution
+- **Quality Enhancement**: Sharpening, contrast boost, noise reduction
+- **Web UI**: Modern, responsive interface
+- **File Management**: Drag-and-drop upload, direct download
+- **API Ready**: REST endpoints for automation
+- **Free Hosting**: Deploy on Render.com at no cost
 
 ---
 
-## Tech Stack
+## 🎯 What This Demonstrates
 
-- Node.js + Express
-- Multer file upload middleware
-- Native C++ video processor using OpenCV
-- HTML, CSS, JavaScript front-end
+- Full-stack web application (Node.js + Python)
+- Video processing pipeline
+- File upload/download workflows
+- RESTful API design
+- CI/CD automation with GitHub Actions
+- Cloud deployment
 
----
-
-## Quick Start
-
-    cd  d:\Projects\Video Frame Interpolation\Video Frame Interpolation
-    npm install
-
-Build the C++ executable and place it in the project root as Video Frame Interpolation.exe.
-
-Then run:
-
-    npm start
-
-Open:
-
-    http://localhost:3000
+Perfect for portfolios and technical interviews!
 
 ---
 
-## Build the C++ Executable
+## 🚀 Quick Start (Local Development)
 
-This repo excludes compiled binaries from source control. Build the executable locally and place it in the repository root.
+### Prerequisites
 
-Example Visual Studio build command:
+- **Node.js** 18+ ([Download](https://nodejs.org/))
+- **Python** 3.9+ ([Download](https://www.python.org/))
+- **Git** ([Download](https://git-scm.com/))
 
-    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvars64.bat
-    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\bin\Hostx64\x64\cl.exe /EHsc /std:c++17 /ID:\opencv\build\include /ID:\opencv\build\include\opencv2 src\VideoFrameInterpolation.cpp /link /LIBPATH:D:\opencv\build\x64\vc16\lib opencv_world4120.lib /OUT:Video Frame Interpolation.exe
+### Installation
 
-Note: Video Frame Interpolation.exe is intentionally excluded from Git via .gitignore.
+```bash
+# Clone the repository
+git clone https://github.com/YOUR_USERNAME/Video-Frame-Interpolation.git
+cd Video-Frame-Interpolation
 
----
+# Install Node.js dependencies
+npm install
 
-## Folder Structure
+# Install Python dependencies
+pip install -r requirements.txt
 
-    Video Frame Interpolation/
-    +-- public/                 # Front-end UI assets
-    �   +-- index.html
-    �   +-- about.html
-    �   +-- styles.css
-    �   +-- script.js
-    +-- src/                    # C++ source
-    �   +-- VideoFrameInterpolation.cpp
-    +-- input/                  # Uploaded input videos
-    +-- output/                 # Processed output videos
-    +-- server.js               # Express server
-    +-- package.json            # Node metadata and scripts
-    +-- package-lock.json       # Dependency lock file
-    +-- LICENSE                # Open source license
-    +-- README.md               # Project documentation
+# Start the server
+npm start
+```
+
+Open your browser and go to: **http://localhost:3000**
 
 ---
 
-## How to Use
+## 🌐 Deploy to the Internet (FREE)
 
-1. Open the project in your browser
-2. Upload a supported video file
-3. Set the slow motion factor and resolution scale
-4. Start processing
-5. Download the enhanced video when it is ready
+### Deploy on Render.com in 5 Minutes
+
+**Perfect for**: Portfolio projects, demos, testing
+
+See detailed guide: [START_HERE_FREE_DEPLOYMENT.md](START_HERE_FREE_DEPLOYMENT.md)
+
+Quick steps:
+1. Push code to GitHub
+2. Sign up on Render.com (free, no credit card)
+3. Connect your GitHub repository
+4. Deploy with one click
+5. Your app goes live instantly!
+
+**Limitations**: 1GB storage, 512MB RAM (upgrade anytime)
 
 ---
 
-## Supported Formats
+## 📋 Project Structure
 
-- MP4
+```
+Video-Frame-Interpolation/
+├── public/                      # Frontend files
+│   ├── index.html              # Main page
+│   ├── about.html              # About page
+│   ├── styles.css              # Styling
+│   └── script.js               # Frontend logic
+├── src/                         # Source files
+│   └── VideoFrameInterpolation.cpp
+├── .github/
+│   └── workflows/
+│       └── render-deploy.yml   # CI/CD pipeline
+├── input/                       # Uploaded videos (temporary)
+├── output/                      # Processed videos (temporary)
+├── server.js                    # Express server
+├── video_processor.py           # Python video processing
+├── requirements.txt             # Python dependencies
+├── render.yaml                  # Render deployment config
+├── package.json                 # Node.js configuration
+├── LICENSE                      # MIT License
+└── README.md                    # This file
+```
+
+---
+
+## 📖 How to Use
+
+1. **Open the app** in your web browser
+2. **Upload a video** - Drag & drop or click to select
+3. **Choose enhancement settings**:
+   - Slow motion factor (2x - 8x)
+   - Resolution scale (1.0x - 3.0x)
+   - Quality options (sharpening, contrast, etc.)
+4. **Process** - Click the "Process" button
+5. **Download** - Download your enhanced video
+
+---
+
+## 🎥 Supported Video Formats
+
+- MP4 (H.264)
 - AVI
-- MOV
+- MOV (QuickTime)
 - MKV
 - FLV
 - WMV
 
+**Recommended**: MP4 for best compatibility
+
 ---
 
-## APIs
+## 🔌 API Reference
 
-### POST /api/process-video
+### POST `/api/process-video`
 
-Upload a video and process it.
+Process a video with enhancement options.
 
-Parameters:
+**Request:**
+```bash
+curl -X POST http://localhost:3000/api/process-video \
+  -F "video=@input.mp4" \
+  -F "slowFactor=2" \
+  -F "resolutionScale=1.5" \
+  -F "enableSharpening=1"
+```
 
-- video: multipart file upload
-- slowFactor: integer, 2-8
-- resolutionScale: float, 1.0-3.0
-- enableSharpening: 0 or 1
-- enableContrast: 0 or 1
-- enableNoisReduction: 0 or 1
-- enableEdgeUpscale: 0 or 1
+**Parameters:**
+| Parameter | Type | Range | Default |
+|-----------|------|-------|---------|
+| video | File | - | Required |
+| slowFactor | Integer | 2-8 | 2 |
+| resolutionScale | Float | 1.0-3.0 | 1.0 |
+| enableSharpening | 0/1 | - | 1 |
+| enableContrast | 0/1 | - | 1 |
+| enableNoisReduction | 0/1 | - | 1 |
+| enableEdgeUpscale | 0/1 | - | 1 |
 
-Sample response:
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Video processed successfully",
+  "outputFile": "output_1234567890.mp4",
+  "outputPath": "/download/output_1234567890.mp4"
+}
+```
 
-    {
-      success: true,
-      message: Video processed successfully,
-      outputFile: output_1234567890.mp4,
-      outputPath: /download/output_1234567890.mp4
-    }
-
-### GET /download/:filename
+### GET `/download/:filename`
 
 Download a processed video file.
 
-### GET /api/status/:filename
+```bash
+curl http://localhost:3000/download/output_1234567890.mp4 > output.mp4
+```
 
-Check whether a processed file exists and view its metadata.
+### GET `/api/status/:filename`
 
----
+Check if a video has been processed.
 
-## System Requirements
-
-### Recommended
-
-- Node.js 14+
-- Windows 10/11
-- OpenCV development libraries installed
-- 8GB+ RAM
-- SSD storage
+```bash
+curl http://localhost:3000/api/status/output_1234567890.mp4
+```
 
 ---
 
-## License
+## 📦 Tech Stack
 
-This project is released under the MIT License. See LICENSE.
+### Backend
+- **Node.js** - JavaScript runtime
+- **Express.js** - Web framework
+- **Multer** - File upload handling
+
+### Video Processing
+- **Python** 3.9+
+- **OpenCV** - Computer vision library
+- **NumPy** - Numerical computing
+- **SciPy** - Scientific computing
+
+### Frontend
+- **HTML5** - Structure
+- **CSS3** - Styling
+- **Vanilla JavaScript** - Interactivity
+
+### Deployment
+- **Render.com** - Free hosting
+- **GitHub Actions** - CI/CD automation
 
 ---
 
-## Notes for Recruiters
+## 📋 Dependencies
 
-This repo demonstrates:
+### Node.js (`package.json`)
+```json
+{
+  "express": "^4.18.2",
+  "multer": "^1.4.5-lts.1"
+}
+```
 
-- cross-language integration between Node.js and C++,
-- user-facing UX design for technical applications,
-- practical file upload and processing workflow,
-- clear technical documentation and build instructions.
+### Python (`requirements.txt`)
+```
+opencv-python>=4.5.0
+numpy>=1.19.0
+scipy>=1.5.0
+scikit-image>=0.17.0
+```
 
 ---
 
-## Status
+## 🖥️ System Requirements
 
-Prototype / portfolio-ready implementation with production-oriented documentation and developer onboarding.
+| Requirement | Minimum | Recommended |
+|-------------|---------|-------------|
+| Node.js | 18+ | 18+ |
+| Python | 3.9+ | 3.9+ |
+| RAM | 512MB | 1GB+ |
+| Storage | 1GB | 5GB+ |
+| OS | Windows/macOS/Linux | Any |
+
+---
+
+## 🚀 Deployment Options
+
+| Platform | Cost | Setup Time | Best For |
+|----------|------|-----------|----------|
+| **Render.com** | FREE | 5 min | Testing, demos, portfolios |
+| **Heroku** | Paid | 5 min | Production (paid) |
+| **AWS EC2** | Paid | 20 min | High traffic |
+| **DigitalOcean** | Paid | 10 min | Production |
+| **Local** | FREE | 2 min | Development |
+
+---
+
+## 🔒 Security Notes
+
+### For Production Deployment:
+- Add HTTPS/SSL (Render provides this automatically)
+- Implement rate limiting
+- Add authentication if needed
+- Sanitize file uploads
+- Set maximum file size limits
+- Regular security updates
+
+---
+
+## 🐛 Troubleshooting
+
+### "Python not found"
+```bash
+# Install Python dependencies
+pip install -r requirements.txt
+```
+
+### "Port 3000 already in use"
+```bash
+# Use a different port
+PORT=3001 npm start
+```
+
+### "Video processing timeout"
+- Use smaller video files
+- Upgrade server resources
+- Reduce processing parameters
+
+### "Out of memory"
+- Process smaller videos
+- Upgrade server RAM
+- Upgrade plan tier
+
+---
+
+## 📚 Documentation
+
+- **[START_HERE_FREE_DEPLOYMENT.md](START_HERE_FREE_DEPLOYMENT.md)** - Deploy for FREE
+- **[FREE_DEPLOYMENT_CHECKLIST.md](FREE_DEPLOYMENT_CHECKLIST.md)** - Step-by-step deployment
+- **[RENDER_FREE_DEPLOYMENT.md](RENDER_FREE_DEPLOYMENT.md)** - Complete Render.com guide
+
+---
+
+## 💡 For Recruiters & Hiring Managers
+
+This project demonstrates:
+
+✅ Full-stack development (frontend + backend)
+✅ Multiple technologies integration (JavaScript + Python)
+✅ Video processing pipeline
+✅ RESTful API design
+✅ File upload/download workflows
+✅ Cloud deployment & CI/CD
+✅ Production-ready code structure
+✅ Comprehensive documentation
+
+---
+
+## 📝 License
+
+This project is licensed under the **MIT License** - see [LICENSE](LICENSE) file for details.
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Feel free to:
+- Report issues
+- Submit pull requests
+- Suggest improvements
+
+---
+
+## 📞 Support
+
+- **Issues**: Create a GitHub issue
+- **Questions**: Check documentation files
+- **Deployment Help**: See [START_HERE_FREE_DEPLOYMENT.md](START_HERE_FREE_DEPLOYMENT.md)
+
+---
+
+## 🎉 Getting Started
+
+Ready to deploy? Follow these steps:
+
+1. **Read**: [START_HERE_FREE_DEPLOYMENT.md](START_HERE_FREE_DEPLOYMENT.md)
+2. **Follow**: [FREE_DEPLOYMENT_CHECKLIST.md](FREE_DEPLOYMENT_CHECKLIST.md)
+3. **Deploy**: Push to GitHub → Render deploys automatically
+4. **Share**: Your live URL with others!
+
+---
+
+**Made with ❤️ for video processing enthusiasts**
+
+*Last updated: May 2026*

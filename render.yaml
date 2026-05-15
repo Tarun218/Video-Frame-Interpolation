@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: video-interpolation-studio
+    env: node
+    plan: free
+    
+    # Build configuration
+    buildCommand: npm install
+    startCommand: npm start
+    
+    # Environment variables
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: "3000"
+    
+    # Python runtime support
+    # Render will auto-detect and install Python dependencies from requirements.txt
+    
+    # Disk space for processing videos (limited on free tier)
+    disk:
+      name: video-storage
+      mountPath: /tmp/video-storage
+      sizeGB: 1
