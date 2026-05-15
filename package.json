@@ -5,7 +5,13 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "node server.js"
+    "dev": "node server.js",
+    "test": "echo 'No tests specified' && exit 0",
+    "build": "echo 'Build complete'",
+    "pm2-start": "pm2 start server.js --name 'video-interpolation' --instances max",
+    "pm2-stop": "pm2 stop video-interpolation",
+    "pm2-restart": "pm2 restart video-interpolation",
+    "pm2-logs": "pm2 logs video-interpolation"
   },
   "repository": {
     "type": "git",

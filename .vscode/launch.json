@@ -2,21 +2,40 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Debug Video Interpolation",
-            "type": "cppvsdbg",
+            "name": "Debug Express Server",
+            "type": "node",
             "request": "launch",
-            "program": "${workspaceFolder}/Video Frame Interpolation.exe",
-            "args": [],
-            "stopAtEntry": false,
-            "cwd": "${workspaceFolder}",
-            "environment": [
-                {
-                    "name": "PATH",
-                    "value": "D:\\opencv\\build\\x64\\vc16\\bin;${env:PATH}"
-                }
-            ],
+            "program": "${workspaceFolder}/server.js",
+            "restart": true,
             "console": "integratedTerminal",
-            "preLaunchTask": "Build Video Frame Interpolation"
+            "internalConsoleOptions": "neverOpen",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "env": {
+                "NODE_ENV": "development"
+            }
+        },
+        {
+            "name": "Run Express Server (no debug)",
+            "type": "node",
+            "request": "launch",
+            "program": "${workspaceFolder}/server.js",
+            "restart": true,
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen",
+            "noDebug": true
+        },
+        {
+            "name": "Attach to Node Process",
+            "type": "node",
+            "request": "attach",
+            "port": 9229,
+            "address": "localhost",
+            "restart": true,
+            "skipFiles": [
+                "<node_internals>/**"
+            ]
         }
     ]
 }

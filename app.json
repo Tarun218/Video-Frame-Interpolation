@@ -1,0 +1,32 @@
+{
+  "name": "Video Frame Interpolation Studio",
+  "description": "Professional video enhancement with frame interpolation and super-resolution",
+  "repository": "https://github.com/Tarun218/Video-Frame-Interpolation",
+  "keywords": [
+    "video",
+    "interpolation",
+    "slow-motion",
+    "super-resolution",
+    "opencv",
+    "python",
+    "node.js"
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/python"
+    },
+    {
+      "url": "heroku/nodejs"
+    }
+  ],
+  "env": {
+    "PORT": {
+      "description": "Port for the web server",
+      "value": "3000"
+    },
+    "NODE_ENV": {
+      "description": "Node environment",
+      "value": "production"
+    }
+  }
+}

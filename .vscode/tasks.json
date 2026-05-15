@@ -2,7 +2,88 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Build Video Frame Interpolation",
+            "label": "Install Dependencies",
+            "type": "shell",
+            "command": "npm",
+            "args": [
+                "install"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "echo": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Start Express Server",
+            "type": "shell",
+            "command": "npm",
+            "args": [
+                "start"
+            ],
+            "isBackground": true,
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "echo": true
+            },
+            "problemMatcher": {
+                "pattern": {
+                    "regexp": "^.*$",
+                    "file": 1,
+                    "location": 2,
+                    "message": 3
+                },
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": "^.*Server running.*",
+                    "endsPattern": "^.*Server running.*"
+                }
+            }
+        },
+        {
+            "label": "Dev Mode (with nodemon)",
+            "type": "shell",
+            "command": "npm",
+            "args": [
+                "run",
+                "dev"
+            ],
+            "isBackground": true,
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "echo": true
+            },
+            "problemMatcher": {
+                "pattern": {
+                    "regexp": "^.*$",
+                    "file": 1,
+                    "location": 2,
+                    "message": 3
+                },
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": "^.*listening.*",
+                    "endsPattern": "^.*listening.*"
+                }
+            }
+        },
+        {
+            "label": "Build Video Frame Interpolation (C++)",
             "type": "shell",
             "command": "cmd",
             "args": [
@@ -11,7 +92,7 @@
             ],
             "group": {
                 "kind": "build",
-                "isDefault": true
+                "isDefault": false
             },
             "problemMatcher": [
                 "$msCompile"
@@ -24,7 +105,7 @@
             }
         },
         {
-            "label": "Run Video Frame Interpolation",
+            "label": "Run Video Frame Interpolation (C++)",
             "type": "shell",
             "command": "cmd",
             "args": [
@@ -33,13 +114,15 @@
             ],
             "group": {
                 "kind": "test",
-                "isDefault": true
+                "isDefault": false
             },
             "presentation": {
                 "reveal": "always",
                 "panel": "shared"
             },
-            "dependsOn": ["Build Video Frame Interpolation"]
+            "dependsOn": [
+                "Build Video Frame Interpolation (C++)"
+            ]
         },
         {
             "label": "Clean Build",

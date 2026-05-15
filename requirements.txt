@@ -1,0 +1,15 @@
+# Python dependencies for Video Frame Interpolation
+# Install with: pip install -r requirements.txt
+
+# Video processing
+opencv-python>=4.5.0
+opencv-contrib-python>=4.5.0
+
+# Image processing and numerical operations
+numpy>=1.19.0
+scipy>=1.5.0
+scikit-image>=0.17.0
+
+# Optional: for better performance
+torch>=1.9.0
+torchvision>=0.10.0

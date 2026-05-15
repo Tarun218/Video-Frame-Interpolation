@@ -45,18 +45,33 @@ if not exist "node_modules" (
 echo [OK] Dependencies installed
 echo.
 
-REM Check if C++ executable exists
-if not exist "Video Frame Interpolation.exe" (
+REM Check if Python is installed
+python --version > nul 2>&1
+if errorlevel 1 (
     color 0C
-    echo ERROR: Video Frame Interpolation.exe not found!
-    echo Please build the C++ program first.
-    echo Use: npx tsc or build in Visual Studio
+    echo ERROR: Python is not installed!
+    echo Please download and install Python from: https://www.python.org/
+    echo Ensure OpenCV is installed: pip install opencv-python
     echo.
     pause
     exit /b 1
 )
 
-echo [OK] Video processor executable found
+echo [OK] Python is installed
+echo.
+
+REM Check if Python packages are available
+python -c "import cv2" > nul 2>&1
+if errorlevel 1 (
+    color 0C
+    echo ERROR: OpenCV is not installed!
+    echo Please install it with: pip install opencv-python
+    echo.
+    pause
+    exit /b 1
+)
+
+echo [OK] OpenCV is installed
 echo.
 
 color 0B

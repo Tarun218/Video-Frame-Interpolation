@@ -1,243 +1,289 @@
-# Production Deployment Guide
+# Azure Deployment Guide
 
-## Quick Start (Development)
+## Prerequisites
+
+Before deploying to Azure, ensure you have:
+
+1. **Azure Account**: [Sign up for free](https://azure.microsoft.com/free/)
+2. **Azure CLI**: [Install Azure CLI](https://learn.microsoft.com/cli/azure/install-azure-cli)
+3. **GitHub Account**: For CI/CD pipeline
+4. **Git**: Version control
+5. **Python 3.9+**: For video processing
+6. **Node.js 18+**: For web server
+
+## Step-by-Step Deployment
+
+### Step 1: Prepare Your Local Repository
 
 ```bash
-npm install
-npm start
+cd "d:\Projects\Video Frame Interpolation\Video Frame Interpolation"
+git init
+git add .
+git commit -m "Initial commit: Video Frame Interpolation"
+git remote add origin https://github.com/YOUR_USERNAME/Video-Frame-Interpolation.git
+git branch -M main
+git push -u origin main
 ```
 
-Then access:
-- **Localhost**: http://localhost:3000
-- **Network**: http://[YOUR_IP]:3000
+### Step 2: Create Azure Resources
 
-## Production Setup (PM2)
+#### Option A: Using Azure CLI (Recommended)
 
-### Step 1: Install PM2 Globally
 ```bash
-npm install -g pm2
+# Login to Azure
+az login
+
+# Set variables
+$RESOURCE_GROUP="video-interpolation-rg"
+$APP_NAME="video-interpolation-app"
+$REGION="eastus"
+
+# Create Resource Group
+az group create `
+  --name $RESOURCE_GROUP `
+  --location $REGION
+
+# Create App Service Plan (Free tier for testing)
+az appservice plan create `
+  --name "video-interpolation-plan" `
+  --resource-group $RESOURCE_GROUP `
+  --sku B1 `
+  --is-linux
+
+# Create App Service
+az webapp create `
+  --resource-group $RESOURCE_GROUP `
+  --plan "video-interpolation-plan" `
+  --name $APP_NAME `
+  --runtime "NODE|18-lts"
+
+# Configure Python support
+az webapp config appsettings set `
+  --resource-group $RESOURCE_GROUP `
+  --name $APP_NAME `
+  --settings `
+    PYTHON_VERSION=3.9 `
+    NODE_ENV=production `
+    PORT=3000
 ```
 
-### Step 2: Start with PM2
+#### Option B: Using Azure Portal
+
+1. Go to [Azure Portal](https://portal.azure.com)
+2. Click "+ Create a resource"
+3. Search for "App Service"
+4. Click "Create"
+5. Configure:
+   - **Resource Group**: Create new - `video-interpolation-rg`
+   - **Name**: `video-interpolation-app` (must be globally unique)
+   - **Publish**: Code
+   - **Runtime Stack**: Node 18 LTS
+   - **OS**: Linux
+   - **Region**: East US (or nearest to you)
+   - **App Service Plan**: Create new (B1 or B2 for testing)
+6. Click "Review + Create" → "Create"
+
+### Step 3: Configure Continuous Deployment
+
+#### Get Your Publish Profile
+
 ```bash
-npm run pm2-start
+# Using Azure CLI
+az webapp deployment list-publishing-profiles `
+  --resource-group $RESOURCE_GROUP `
+  --name $APP_NAME `
+  --query "[0]" --output json > PublishSettings.json
 ```
 
-### Step 3: Make PM2 Auto-start on Reboot
+Or from Azure Portal:
+1. Go to your App Service
+2. Click "Download publish profile"
+3. Save the XML file
+
+#### Add to GitHub Secrets
+
+1. Go to your GitHub repository
+2. Settings → Secrets and variables → Actions
+3. Click "New repository secret"
+4. Add two secrets:
+   - **Name**: `AZURE_PUBLISH_PROFILE`
+   - **Value**: (Paste entire content of your publish profile XML)
+   - **Name**: `AZURE_APP_NAME`
+   - **Value**: `video-interpolation-app` (your app name)
+
+### Step 4: Enable SSH Access for Debugging
+
 ```bash
-pm2 startup
-pm2 save
+# Enable SSH on your App Service
+az webapp create-remote-connection `
+  --resource-group $RESOURCE_GROUP `
+  --name $APP_NAME
+
+# Or use Kudu console (built-in browser SSH)
+# https://YOUR_APP_NAME.scm.azurewebsites.net/
 ```
 
-### Managing with PM2
+### Step 5: Configure Application Settings
 
-**Start:**
 ```bash
-npm run pm2-start
+az webapp config appsettings set `
+  --resource-group $RESOURCE_GROUP `
+  --name $APP_NAME `
+  --settings `
+    PORT=3000 `
+    NODE_ENV=production `
+    WEBSITE_NODE_DEFAULT_VERSION=18.13.0 `
+    PYTHON_VERSION=3.9 `
+    ENABLE_ORYX_BUILD=true
 ```
 
-**Stop:**
+### Step 6: Set Up File Storage
+
+Azure App Service has ephemeral storage - files are deleted when the app restarts.
+
+**For Development**: Use local temp storage (current setup)
+**For Production**: Use Azure Blob Storage
+
 ```bash
-npm run pm2-stop
+# Create Storage Account
+az storage account create `
+  --resource-group $RESOURCE_GROUP `
+  --name "videointerpstg$(Get-Random)" `
+  --location $REGION `
+  --sku Standard_LRS
+
+# Create Blob Container
+az storage container create `
+  --account-name YOUR_STORAGE_ACCOUNT `
+  --name videos
+
+# Get Connection String
+az storage account show-connection-string `
+  --resource-group $RESOURCE_GROUP `
+  --name YOUR_STORAGE_ACCOUNT `
+  --query connectionString
 ```
 
-**Restart:**
+Add connection string to App Service:
 ```bash
-npm run pm2-restart
+az webapp config connection-string set `
+  --resource-group $RESOURCE_GROUP `
+  --name $APP_NAME `
+  --connection-string-type Custom `
+  --settings `
+    AZURE_STORAGE_CONNECTION_STRING="YOUR_CONNECTION_STRING"
 ```
 
-**View Logs:**
+### Step 7: Deploy Your Application
+
+Push to GitHub and the workflow will automatically deploy:
+
 ```bash
-npm run pm2-log
+git add .
+git commit -m "Add Azure deployment configuration"
+git push origin main
 ```
 
-**Monitor:**
+Monitor deployment:
+1. Go to GitHub repository → Actions
+2. Watch the workflow run
+3. Check deployment logs
+
+### Step 8: Verify Deployment
+
 ```bash
-pm2 monit
+# Get your app URL
+az webapp show `
+  --resource-group $RESOURCE_GROUP `
+  --name $APP_NAME `
+  --query "defaultHostName"
+
+# Visit: https://YOUR_APP_NAME.azurewebsites.net
 ```
 
----
+### Step 9: Set Up Custom Domain (Optional)
 
-## Network Access
-
-### From Your Computer:
-- http://localhost:3000
-- http://127.0.0.1:3000
-
-### From Other Computers on Network:
-1. Find your computer's IP address:
-   ```bash
-   ipconfig
-   ```
-   Look for "IPv4 Address" (usually starts with 192.168 or 10.x)
-
-2. Share the URL:
-   ```
-   http://[YOUR_IP]:3000
-   ```
-   Example: http://192.168.1.100:3000
-
-### Building Output Directory Structure
-
-Ensure these directories exist:
-```
-Video Frame Interpolation/
-├── input/          (Auto-created if missing)
-├── output/         (Auto-created if missing)
-└── public/         (Already created)
-```
-
----
-
-## System Requirements
-
-- **CPU**: 4+ cores recommended
-- **RAM**: 8GB+ recommended
-- **Storage**: 50GB+ free space
-- **Network**: Stable connection for uploads
-- **OpenCV**: Already included via DLLs
-
----
-
-## Performance Tuning
-
-### Increase File Upload Limit
-Edit `server.js` and modify:
-```javascript
-const upload = multer({
-    storage: storage,
-    limits: {
-        fileSize: 5 * 1024 * 1024 * 1024  // 5GB
-    }
-});
-```
-
-### Custom Port
-Set environment variable before starting:
 ```bash
-set PORT=8000
-npm start
+# Add custom domain
+az webapp config hostname add `
+  --resource-group $RESOURCE_GROUP `
+  --webapp-name $APP_NAME `
+  --hostname yourdomain.com
 ```
 
-Or edit `server.js` and change:
-```javascript
-const PORT = process.env.PORT || 3000;  // Change 3000 to desired port
-```
+### Step 10: Enable HTTPS/SSL
 
----
-
-## Environment Variables
-
-Create a `.env` file (optional):
-```
-PORT=3000
-NODE_ENV=production
-MAX_UPLOAD_SIZE=2GB
-```
-
----
-
-## Troubleshooting
-
-### Port Already in Use
 ```bash
-netstat -ano | findstr :3000
-taskkill /PID [PID_NUMBER] /F
+# Create App Service Managed Certificate
+az webapp config hostname add `
+  --resource-group $RESOURCE_GROUP `
+  --webapp-name $APP_NAME `
+  --hostname yourdomain.com
+
+# Bind certificate
+az webapp config ssl bind `
+  --resource-group $RESOURCE_GROUP `
+  --name $APP_NAME `
+  --certificate-thumbprint YOUR_THUMBPRINT `
+  --ssl-type SNI
 ```
 
-### PM2 Won't Start
+## Monitoring & Troubleshooting
+
+### View Live Logs
+
 ```bash
-pm2 kill
-pm2 start server.js
+az webapp log tail `
+  --resource-group $RESOURCE_GROUP `
+  --name $APP_NAME
+
+# Or use Azure Portal → Diagnose and solve problems
 ```
 
-### Can't Access from Network
-- Check Windows Firewall allows port 3000
-- Verify you're using correct IP address
-- Ping the computer to verify network connectivity
+### Common Issues
 
-### OpenCV DLLs Not Found
-- Ensure DLL files are in the project root:
-  - opencv_world4120.dll
-  - opencv_videoio_ffmpeg4120_64.dll
+**1. Python not found**
+- Ensure `requirements.txt` is in the root directory
+- Platform will auto-detect and install Python
 
----
+**2. Video processing timeout**
+- Increase App Service plan tier (B2 or higher)
+- Increase `timeout` in server.js if needed
 
-## Nginx Reverse Proxy (Advanced)
+**3. Disk space issues**
+- Use Azure Blob Storage for video files
+- Implement file cleanup strategy
 
-For better production setup with Nginx:
+**4. Large video uploads fail**
+- Check `maxRequestLength` in web.config
+- Increase App Service plan resources
 
-```nginx
-server {
-    listen 80;
-    server_name your-domain.com;
+## Next Steps
 
-    location / {
-        proxy_pass http://localhost:3000;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection 'upgrade';
-        proxy_set_header Host $host;
-        proxy_cache_bypass $http_upgrade;
-        proxy_buffering off;
-    }
-}
-```
+1. ✅ Deployment complete!
+2. Monitor application performance
+3. Set up Application Insights for monitoring
+4. Configure auto-scaling based on load
+5. Set up continuous monitoring and alerts
 
----
+## Useful Commands
 
-## Security Notes
-
-For production internet deployment:
-1. Use HTTPS with SSL certificate
-2. Implement user authentication
-3. Add rate limiting
-4. Validate all file uploads
-5. Use Nginx as reverse proxy
-6. Implement CORS properly
-7. Add input sanitization
-
----
-
-## Monitoring
-
-Check server health:
 ```bash
-pm2 list
-pm2 status
-pm2 logs
+# View app status
+az webapp show --resource-group $RESOURCE_GROUP --name $APP_NAME
+
+# Restart app
+az webapp restart --resource-group $RESOURCE_GROUP --name $APP_NAME
+
+# View configuration
+az webapp config show --resource-group $RESOURCE_GROUP --name $APP_NAME
+
+# Delete resources (cleanup)
+az group delete --name $RESOURCE_GROUP --yes --no-wait
 ```
 
----
+## Support
 
-## Backup Important Files
-
-Regular backups of:
-- `output/` directory (processed videos)
-- `input/` directory (original uploads)
-- `.env` file (if using)
-
----
-
-## Auto-restart on Crash
-
-PM2 automatically restarts crashed processes. To disable:
-```bash
-pm2 delete vfi-studio
-pm2 start server.js --name vfi-studio --no-autorestart
-```
-
----
-
-## Scaling (Multiple Instances)
-
-For multiple CPU cores:
-```bash
-pm2 start server.js -i max --name vfi-studio
-```
-
-This creates one process per CPU core with load balancing.
-
----
-
-**Your Video Frame Interpolation Studio is production-ready!** 🚀
+- [Azure Documentation](https://docs.microsoft.com/azure/)
+- [Azure CLI Reference](https://learn.microsoft.com/cli/azure/)
+- [App Service Troubleshooting](https://learn.microsoft.com/azure/app-service/troubleshoot-common-app-service-errors)

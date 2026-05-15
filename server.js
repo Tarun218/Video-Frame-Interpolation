@@ -1,7 +1,7 @@
 const express = require('express');
 const multer = require('multer');
 const path = require('path');
-const { execSync } = require('child_process');
+const { execSync, spawn } = require('child_process');
 const fs = require('fs');
 const os = require('os');
 
@@ -88,52 +88,75 @@ app.post('/api/process-video', upload.single('video'), (req, res) => {
             fs.mkdirSync(outputDir, { recursive: true });
         }
 
-        // Execute the C++ program with arguments
-        const exePath = path.join(__dirname, 'Video Frame Interpolation.exe');
+        // Execute the Python video processor
+        const pythonScriptPath = path.join(__dirname, 'video_processor.py');
         
-        // Validate the executable exists
-        if (!fs.existsSync(exePath)) {
+        // Validate the processor exists
+        if (!fs.existsSync(pythonScriptPath)) {
             return res.status(500).json({ 
-                error: 'C++ executable not found. Please ensure Video Frame Interpolation.exe is compiled and in the project directory.' 
+                error: 'Video processor script not found. Please ensure video_processor.py is in the project directory.' 
             });
         }
 
-        const command = `"${exePath}" "${inputPath}" "${outputPath}" ${slowFactor} ${resolutionScale} ${qualityFlags}`;
+        const command = `python "${pythonScriptPath}" "${inputPath}" "${outputPath}" ${slowFactor} ${resolutionScale} ${qualityFlags}`;
 
         console.log(`Executing: ${command}`);
         
-        // Execute directly without setTimeout wrapper
-        try {
-            execSync(command, { 
-                timeout: 30 * 60 * 1000,
-                stdio: 'pipe'
+        // Use spawn instead of execSync for better handling of long-running processes
+        return new Promise((resolve, reject) => {
+            const python = spawn('python', [
+                pythonScriptPath,
+                inputPath,
+                outputPath,
+                slowFactor.toString(),
+                resolutionScale.toString(),
+                qualityFlags.toString()
+            ], {
+                stdio: ['pipe', 'inherit', 'inherit'],
+                timeout: 2 * 60 * 60 * 1000  // 2 hours timeout
             });
 
-            // Check if output file exists
-            if (fs.existsSync(outputPath)) {
-                res.json({
-                    success: true,
-                    message: 'Video processed successfully',
-                    outputFile: outputFileName,
-                    outputPath: `/download/${outputFileName}`
-                });
-                
-                // Clean up input file
-                setTimeout(() => {
-                    try {
-                        fs.unlinkSync(inputPath);
-                        console.log(`Cleaned up input file: ${inputPath}`);
-                    } catch (e) {
-                        console.warn(`Could not delete input file: ${e.message}`);
+            let completed = false;
+
+            python.on('close', (code) => {
+                completed = true;
+                if (code === 0) {
+                    // Check if output file exists
+                    if (fs.existsSync(outputPath)) {
+                        res.json({
+                            success: true,
+                            message: 'Video processed successfully',
+                            outputFile: outputFileName,
+                            outputPath: `/download/${outputFileName}`
+                        });
+                        
+                        // Clean up input file
+                        setTimeout(() => {
+                            try {
+                                fs.unlinkSync(inputPath);
+                                console.log(`Cleaned up input file: ${inputPath}`);
+                            } catch (e) {
+                                console.warn(`Could not delete input file: ${e.message}`);
+                            }
+                        }, 1000);
+                    } else {
+                        res.status(500).json({ error: 'Output file not created after processing completed' });
                     }
-                }, 1000);
-            } else {
-                res.status(500).json({ error: 'Output file not created after processing completed' });
-            }
-        } catch (error) {
-            console.error('Processing error:', error.message);
-            res.status(500).json({ error: 'Video processing failed: ' + error.message });
-        }
+                } else {
+                    res.status(500).json({ error: `Python process exited with code ${code}` });
+                }
+                resolve();
+            });
+
+            python.on('error', (error) => {
+                completed = true;
+                console.error('Processing error:', error.message);
+                res.status(500).json({ error: 'Video processing failed: ' + error.message });
+                reject(error);
+            });
+        }).catch(error => {
+            console.error('Spawn error:', error);
+        });
 
     } catch (error) {
         console.error('Upload error:', error);
